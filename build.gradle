@@ -38,6 +38,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // AWS SQS
     implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:3.0.3z'
+    // io jsonwebtoken
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 }
 
 tasks.named('test') {
