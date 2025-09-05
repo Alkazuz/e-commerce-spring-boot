@@ -1,4 +1,4 @@
-package website.marcosfernandes.ecommerce.services.security;
+package website.marcosfernandes.ecommerce.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -3,10 +3,13 @@ package website.marcosfernandes.ecommerce.dto.auth;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import website.marcosfernandes.ecommerce.domain.Role;
 
 import java.util.Set;
 
+@Getter @Setter
 public class RegisterRequestDTO {
     @NotBlank @Email
     private String email;

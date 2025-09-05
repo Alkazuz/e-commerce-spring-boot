@@ -1,4 +1,4 @@
-package website.marcosfernandes.ecommerce.services.security;
+package website.marcosfernandes.ecommerce.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
