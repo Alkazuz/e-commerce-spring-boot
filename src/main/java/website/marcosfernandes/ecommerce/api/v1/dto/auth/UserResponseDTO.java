@@ -1,4 +1,4 @@
-package website.marcosfernandes.ecommerce.dto.auth;
+package website.marcosfernandes.ecommerce.api.v1.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

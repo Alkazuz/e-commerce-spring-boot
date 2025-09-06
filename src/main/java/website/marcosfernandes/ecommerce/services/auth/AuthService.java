@@ -2,16 +2,11 @@ package website.marcosfernandes.ecommerce.services.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import website.marcosfernandes.ecommerce.domain.User;
-import website.marcosfernandes.ecommerce.dto.auth.LoginRequestDTO;
-import website.marcosfernandes.ecommerce.dto.auth.RegisterRequestDTO;
+import website.marcosfernandes.ecommerce.api.v1.dto.auth.LoginRequestDTO;
 import website.marcosfernandes.ecommerce.repository.UserRepository;
-import website.marcosfernandes.ecommerce.security.AuthJwtSecurity;
-
-import javax.naming.AuthenticationException;
 
 @Service
 public class AuthService {
@@ -31,12 +26,8 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(RegisterRequestDTO register) {
-        User user = User.builder()
-                .email(register.getEmail())
-                .password(passwordEncoder.encode(register.getPassword()))
-                .name(register.getName())
-                .build();
+    public User register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

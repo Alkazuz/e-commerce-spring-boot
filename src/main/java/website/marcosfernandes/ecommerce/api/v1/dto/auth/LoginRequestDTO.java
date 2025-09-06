@@ -1,4 +1,4 @@
-package website.marcosfernandes.ecommerce.dto.auth;
+package website.marcosfernandes.ecommerce.api.v1.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
