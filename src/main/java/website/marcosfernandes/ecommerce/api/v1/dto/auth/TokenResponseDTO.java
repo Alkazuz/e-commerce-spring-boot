@@ -10,4 +10,5 @@ import lombok.Setter;
 public class TokenResponseDTO {
     private String token;
     private String tokenType = "Bearer";
+    private UserResponseDTO user;
 }
