@@ -39,7 +39,7 @@ public class AuthService {
         var locale = LocaleContextHolder.getLocale();
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            String msg = messageSource.getMessage("user.email.already.exists", null, locale);
+            String msg = messageSource.getMessage("user.email.already.exists", null, "Email already exists", locale);
             throw new EmailAlreadyExistsException(msg);
         }
 
@@ -57,13 +57,13 @@ public class AuthService {
                     )
             );
         } catch (BadCredentialsException ex) {
-            String msg = messageSource.getMessage("auth.bad.credentials", null, locale);
+            String msg = messageSource.getMessage("auth.bad.credentials", null, "Invalid email or password", locale);
             throw new BadCredentialsException(msg);
         }
 
         return userRepository.findByEmail(login.getEmail())
                 .orElseThrow(() -> {
-                    String msg = messageSource.getMessage("user.not.found", null, locale);
+                    String msg = messageSource.getMessage("user.not.found", null, "User not found", locale);
                     return new UserNotFoundException(msg);
                 });
     }

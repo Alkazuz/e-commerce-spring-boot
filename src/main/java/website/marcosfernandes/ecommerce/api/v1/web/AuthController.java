@@ -20,28 +20,39 @@ import website.marcosfernandes.ecommerce.services.auth.AuthService;
 public class AuthController {
     private final AuthService auth;
     private final AuthJwtSecurity jwtService;
-    private final UserDetailsService userDetailsService;
-
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponseDTO> register(@Valid @RequestBody RegisterRequestDTO req){
-        User user = new User();
-        user.setEmail(req.getEmail());
-        user.setName(req.getName());
-        user.setPassword(req.getPassword());
+    public ResponseEntity<TokenResponseDTO> register(@Valid @RequestBody RegisterRequestDTO req) {
+        User toSave = new User();
+        toSave.setEmail(req.getEmail());
+        toSave.setName(req.getName());
+        toSave.setPassword(req.getPassword());
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        User saved = auth.register(toSave);
+
+        var userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(saved.getEmail())
+                .password(saved.getPassword())
+                .authorities(saved.getRoles())
+                .build();
+
         String token = jwtService.generateToken(userDetails);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new TokenResponseDTO(token, "Bearer", new UserResponseDTO(user)));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new TokenResponseDTO(token, "Bearer", new UserResponseDTO(saved)));
     }
 
     @PostMapping("/login")
-    public TokenResponseDTO login(@Valid @RequestBody LoginRequestDTO req){
+    public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginRequestDTO req) {
         User user = auth.authenticate(req);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        var userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRoles())
+                .build();
+
         String token = jwtService.generateToken(userDetails);
-        return new TokenResponseDTO(token, "Bearer", new UserResponseDTO(user));
+        return ResponseEntity.ok(new TokenResponseDTO(token, "Bearer", new UserResponseDTO(user)));
     }
 }

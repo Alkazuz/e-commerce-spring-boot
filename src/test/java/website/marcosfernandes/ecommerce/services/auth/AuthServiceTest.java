@@ -17,6 +17,7 @@ import website.marcosfernandes.ecommerce.repository.UserRepository;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -41,11 +42,10 @@ class AuthServiceTest {
         login.setPassword("secret");
 
         User user = User.builder()
-                .id(1L)
+                .id(UUID.randomUUID())
                 .name("User")
                 .email("user@example.com")
                 .password("encoded")
-                .roles(Set.of(Role.CUSTOMER))
                 .build();
 
         when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
