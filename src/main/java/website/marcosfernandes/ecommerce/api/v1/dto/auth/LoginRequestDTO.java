@@ -7,8 +7,9 @@ import lombok.Setter;
 
 @Getter @Setter
 public class LoginRequestDTO {
-    @NotBlank @Email
+    @NotBlank(message = "{validation.user.email.required}")
+    @Email
     private String email;
-    @NotBlank
+    @NotBlank(message = "{validation.user.password.required}")
     private String password;
 }

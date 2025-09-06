@@ -11,13 +11,15 @@ import java.util.Set;
 
 @Getter @Setter
 public class RegisterRequestDTO {
-    @NotBlank @Email
+    @NotBlank(message = "{validation.user.email.required}")
+    @Email
     private String email;
     @NotBlank
-    @Size(min=6, max=100)
+    @Size(min = 6, message = "{validation.user.password.min}")
     private String password;
     @NotBlank
     private String confirmPassword;
-    @NotBlank private String name;
+    @NotBlank(message = "{validation.user.name.required}")
+    private String name;
     private Set<Role> roles;
 }
