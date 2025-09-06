@@ -21,5 +21,4 @@ public class RegisterRequestDTO {
     private String confirmPassword;
     @NotBlank(message = "{validation.user.name.required}")
     private String name;
-    private Set<Role> roles;
 }

@@ -2,8 +2,12 @@ package website.marcosfernandes.ecommerce.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import website.marcosfernandes.ecommerce.enums.RoleEnum;
 
+import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity @Table(name = "users")
 @Getter @Setter
@@ -13,33 +17,62 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public class User {
     @Id
-    private Long id;
-    @Column(nullable = false)
+    @GeneratedValue
+    private UUID id;
+
+    @Column(nullable = false, length = 120)
     private String name;
-    @Column(unique = true, nullable = false)
+
+    @Column(nullable = false, length = 255, unique = true)
     private String email;
-    @Column(nullable = false)
+
+    @Column(name = "password", nullable = false, length = 100)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="user_roles", joinColumns=@JoinColumn(name="user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name="role", nullable=false)
-    private Set<Role> roles;
+    @Column(nullable = false)
+    private boolean enabled = true;
 
-    public boolean hasRole(Role role) {
-        return roles.contains(role);
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
+
+    public boolean hasRole(RoleEnum role) {
+        return roles.stream()
+                .anyMatch(r -> r.getName().equals(role.name()));
     }
 
     public boolean isAdmin() {
-        return hasRole(Role.ADMIN);
+        return hasRole(RoleEnum.ADMIN);
     }
 
-    public boolean isCustomer() {
-        return hasRole(Role.CUSTOMER);
+    public boolean isUser() {
+        return hasRole(RoleEnum.USER);
     }
 
     public boolean isSeller() {
-        return hasRole(Role.SELLER);
+        return hasRole(RoleEnum.SELLER);
+    }
+
+    @PrePersist
+    void prePersist() {
+        var now = OffsetDateTime.now();
+        createdAt = now;
+        updatedAt = now;
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        updatedAt = OffsetDateTime.now();
     }
 }

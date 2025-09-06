@@ -1,16 +1,20 @@
 package website.marcosfernandes.ecommerce.domain;
 
-public enum Role {
-    ADMIN("Admin"),
-    CUSTOMER("Customer"),
-    SELLER("Seller");
+import jakarta.persistence.*;
+import lombok.*;
 
-    private final String name;
-    Role (String name) {
-        this.name = name;
-    }
+import java.util.UUID;
 
-    public String getName() {
-        return name;
-    }
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Entity @Table(name = "roles")
+public class Role {
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(nullable = false, length = 50, unique = true)
+    private String name;
+
+    @Column(length = 255)
+    private String description;
 }

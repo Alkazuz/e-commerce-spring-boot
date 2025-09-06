@@ -7,12 +7,13 @@ import website.marcosfernandes.ecommerce.domain.Role;
 import website.marcosfernandes.ecommerce.domain.User;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class UserResponseDTO {
-    private Long id;
+    private UUID id;
     private String email;
     private String name;
     private Set<Role> roles;
