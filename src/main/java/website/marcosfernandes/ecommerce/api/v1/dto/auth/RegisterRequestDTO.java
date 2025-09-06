@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import website.marcosfernandes.ecommerce.annotations.PasswordMatches;
 import website.marcosfernandes.ecommerce.domain.Role;
 
 import java.util.Set;
 
+@PasswordMatches
 @Getter @Setter
 public class RegisterRequestDTO {
     @NotBlank(message = "{validation.user.email.required}")
